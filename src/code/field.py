@@ -1,7 +1,6 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Set, Tuple
 from pyglet.graphics import Batch, OrderedGroup
 from code.cell import Cell
-import time
 
 
 class Field:
@@ -18,7 +17,7 @@ class Field:
         # * Dict with Cells and their positions as keys
         self.cells: Dict[Tuple[int, int], Cell] = {}
 
-    def get_possible_affected_cells(self) -> List[Tuple[int, int]]:
+    def get_possible_affected_cells(self) -> Set[Tuple[int, int]]:
         """Returns a list of all cells that could be affected during the next step
 
         Returns:
@@ -26,11 +25,11 @@ class Field:
         """
 
         # * Add all cells that are next to a living cell | Not wrapping around the edges
-        res: List[Tuple[int, int]] = []
+        res: Set[Tuple[int, int]] = set()
         for cell in self.cells.keys():
             for i in range(max(0, cell[0] - 1), min(self.cell_count[0], cell[0] + 2)):
                 for j in range(max(0, cell[1] - 1), min(self.cell_count[1], cell[1] + 2)):
-                    res.append((i, j))
+                    res.add((i, j))
         return res
 
     def get_neighbours(self, cell: Tuple[int, int]) -> int:
@@ -79,16 +78,17 @@ class Field:
         """
 
         relevant_cells = self.get_possible_affected_cells()
-        new_cells: List[Tuple[int, int]] = []
+        new_cells: Set[Tuple[int, int]] = set()
 
         for cell in relevant_cells:
             if self.apply_rules_to_cell(cell) == 1:
-                new_cells.append(cell)
+                new_cells.add(cell)
 
+        print(len(new_cells))
         self.set_cells(new_cells)
         return len(self.cells) != 0
 
-    def set_cells(self, cells: List[Tuple[int, int]]) -> None:
+    def set_cells(self, cells: Set[Tuple[int, int]]) -> None:
         """Sets the cells of the field
 
         Args:
