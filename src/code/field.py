@@ -51,7 +51,7 @@ class Field:
 
         neighbour_count = self.get_neighbours(cell)
         result = 0
-        
+
         """
         Rules:
             - A dead cell with exactly three living neighbors is reborn in the subsequent generation.
@@ -67,28 +67,27 @@ class Field:
             else:
                 result = 1
         elif neighbour_count == 3:
-                result = 1
-        
+            result = 1
+
         return result
-    
+
     def apply_rules(self) -> bool:
         """Applies the rules to all cells
-        
+
         Returns:
             bool: False if the field is empty, True otherwise
         """
-        
+
         relevant_cells = self.get_possible_affected_cells()
         new_cells: List[Tuple[int, int]] = []
-        
+
         for cell in relevant_cells:
             if self.apply_rules_to_cell(cell) == 1:
                 new_cells.append(cell)
-        
+
         self.set_cells(new_cells)
         return len(self.cells) != 0
-        
-        
+
     def set_cells(self, cells: List[Tuple[int, int]]) -> None:
         """Sets the cells of the field
 
@@ -98,7 +97,7 @@ class Field:
         self.remove_all_cells()
         for cell in cells:
             self.create_cell(cell[0], cell[1])
-    
+
     def translate_mouse(self, mouse_x: int, mouse_y: int) -> Tuple[int, int]:
         """Translates the mouse position to the field position
 

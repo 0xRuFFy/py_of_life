@@ -46,15 +46,14 @@ class GameScreen(Window):
                 self.mark.show(*self.field.translate_mouse(*self.mouse_pos))
 
     def on_draw(self):
-        """Draws the game
-        """
+        """Draws the game"""
         self.clear()
         self.batch.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         # * Save the mouse position
         self.mouse_pos = x, y
-        
+
         # * Update the mark cell position to the mouse position
         if not self.running:
             self.mark.update(*self.field.translate_mouse(x, y))
@@ -62,7 +61,7 @@ class GameScreen(Window):
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         # * Add/remove multiple cells while dragging the left/right mouse button
         if not self.running:
-            self.mark.hidde() # * Hide the mark cell while dragging
+            self.mark.hidde()  # * Hide the mark cell while dragging
             if buttons == mouse.LEFT:
                 self.field.create_cell(*self.field.translate_mouse(x, y))
             elif buttons == mouse.RIGHT:
@@ -90,6 +89,6 @@ class GameScreen(Window):
                 self.mark.hidde()
             else:
                 self.mark.show(*self.field.translate_mouse(*self.mouse_pos))
-                
+
         if not self.running and symbol == key.BACKSPACE:
             self.field.remove_all_cells()
