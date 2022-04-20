@@ -79,24 +79,17 @@ class Field:
         """
 
         relevant_cells = self.get_possible_affected_cells()
-        new_cells: Set[Tuple[int, int]] = set()
+        new_cells = {key:val for key, val in self.cells.items()}
 
         for cell in relevant_cells:
-            if self.apply_rules_to_cell(cell) == 1:
-                new_cells.add(cell)
+            if self.apply_rules_to_cell(cell) == 1 and self.cells.get(cell) is None:
+               new_cells[cell] = self.create_cell(cell[0], cell[1], True)
+            elif self.apply_rules_to_cell(cell) == 0 and self.cells.get(cell) is not None:
+                new_cells.pop(cell, None)
 
-        self.set_cells(new_cells)
-        return len(self.cells) != 0
-
-    def set_cells(self, cells: Set[Tuple[int, int]]) -> None:
-        """Sets the cells of the field
-
-        Args:
-            cells (List[Cell]): The list of cells to set
-        """
         self.remove_all_cells()
-        for cell in cells:
-            self.create_cell(cell[0], cell[1])
+        self.cells = new_cells
+        return len(self.cells) != 0
 
     def translate_mouse(self, mouse_x: int, mouse_y: int) -> Tuple[int, int]:
         """Translates the mouse position to the field position
@@ -110,14 +103,20 @@ class Field:
         """
         return mouse_x // self.cell_size, mouse_y // self.cell_size
 
-    def create_cell(self, x: int, y: int) -> None:
+    def create_cell(self, x: int, y: int, return_: bool = False) -> Cell | None:
         """Creates a cell at the given position if it doesn't exist
 
         Args:
             x (int): The x position of the cell
             y (int): The y position of the cell
+            return_ (bool): If True, returns the cell instead of adding it to the field (default: False)
+        
+        Returns:
+            Cell | None: The cell if return_ is True, None otherwise
         """
-        if self.cells.get((x, y)) is None:
+        if return_:
+            return Cell(x, y, self.cell_size, self.cell_count, self.batch, self.group)
+        elif self.cells.get((x, y)) is None:
             self.cells[x, y] = Cell(x, y, self.cell_size, self.cell_count, self.batch, self.group)
 
     def remove_cell(self, x: int, y: int) -> None:
