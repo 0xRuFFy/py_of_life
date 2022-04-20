@@ -18,14 +18,13 @@ class Field:
         # * Dict with Cells and their positions as keys
         self.cells: Dict[Tuple[int, int], Cell] = {}
 
-    def format_rules(self, rules: str) -> Tuple[List[int], List[int]]:
+    def format_rules(self, rules: str) -> Tuple[Set[int], Set[int]]:
         s = rules.split("/")
         if len(s) != 2:
             raise ValueError("Rules must be in the form 'a/b'")
         a, b = s
-        print(a, b)
-        a = [int(x) for x in a]
-        b = [int(x) for x in b]
+        a = {int(x) for x in a}
+        b = {int(x) for x in b}
         return a, b
     
     def get_possible_affected_cells(self) -> Set[Tuple[int, int]]:
@@ -37,10 +36,10 @@ class Field:
 
         # * Add all cells that are next to a living cell | Not wrapping around the edges
         res: Set[Tuple[int, int]] = set()
-        for cell in self.cells.keys():
-            for i in range(max(0, cell[0] - 1), min(self.cell_count[0], cell[0] + 2)):
-                for j in range(max(0, cell[1] - 1), min(self.cell_count[1], cell[1] + 2)):
-                    res.add((i, j))
+        for pos in self.cells.keys():
+            res.add(pos)
+            for cell in self.cells[pos].neighbours:
+                res.add(cell)
         return res
 
     def get_neighbours(self, cell: Tuple[int, int]) -> int:
@@ -119,7 +118,7 @@ class Field:
             y (int): The y position of the cell
         """
         if self.cells.get((x, y)) is None:
-            self.cells[x, y] = Cell(x, y, self.cell_size, self.batch, self.group)
+            self.cells[x, y] = Cell(x, y, self.cell_size, self.cell_count, self.batch, self.group)
 
     def remove_cell(self, x: int, y: int) -> None:
         """Removes a cell at the given position if it exists
