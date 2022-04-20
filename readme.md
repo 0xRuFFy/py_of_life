@@ -21,16 +21,25 @@
     - [ ] deletion of selected cells
     - [ ] copy / paste selections
 - [ ] create presets to use
-- [x] make simulation values (width, height, cellsize, etc.) modifiable
-- [x] add suport for different worlds -> input shorthand version (e.q.: 23/3, 3/3, 13/3, 1357/1357)
+- [x] <del>make simulation values (width, height, cellsize, etc.) modifiable</del>
+- [x] <del>add suport for different worlds -> input shorthand version (e.q.: 23/3, 3/3, 13/3, 1357/1357)</del>
 - [ ] add display for simulation info : Generation, Population, etc.
 - [ ] optimize code -> increase performance
 
 ## How to use
-### To play the game with:
+### To play the game:
 ```shell
-> python3 src/py_of_life.py
+Usage: python3 src/py_of_life.py [OPTIONS]
+Options:
+    -h, --help:                Prints this help message
+    -s, --size <width height>: Sets the size of the field (default: 800, 600)
+    -c, --cell-size <size>:    Sets the size of the cells (default: 10)
+    -r, --rules <rules>:       Sets the rules of the game (default: 3/23)
+
+e.g: 
+> python3 src/py_of_life.py --size 400 400 --cell-size 5 --rules 13/3
 ```
+> Without arguments, the game will start with the default values
 
 ### While runnig
 - You can <span style="text-decoration: underline">place cells</span> by pressing/dragging the **left mousebutton**

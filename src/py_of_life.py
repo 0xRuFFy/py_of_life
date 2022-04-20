@@ -5,10 +5,10 @@ from sys import argv
 def usage() -> None:
     print("Usage: python3 py_of_life.py [OPTIONS]")
     print("Options:")
-    print("    -h, --help: Prints this help message")
-    print("    -s, --size <width, height>: Sets the size of the field")
-    print("    -c, --cell-size <size>: Sets the size of the cells")
-    print("    -r, --rules <rules>: Sets the rules of the game (default: 3/23)")
+    print("    -h, --help:                 Prints this help message")
+    print("    -s, --size <width, height>: Sets the size of the field (default: 800, 600)")
+    print("    -c, --cell-size <size>:     Sets the size of the cells default: 10")
+    print("    -r, --rules <rules>:        Sets the rules of the game (default: 3/23)")
     
 def main() -> None:
     width = 800
