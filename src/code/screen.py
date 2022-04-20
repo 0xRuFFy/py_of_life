@@ -8,24 +8,25 @@ from pyglet.clock import schedule_interval
 
 class GameScreen(Window):
 
-    size = (800, 600)
-    cell_size = 5
     batch = Batch()
     group_0 = OrderedGroup(0)
     group_1 = OrderedGroup(1)
 
-    def __init__(self):
-        super().__init__(*self.size, caption="Py Of Life")
+    def __init__(self, width: int, height: int, cell_size: int, rules: str):
+        super().__init__(width, height, caption="Py Of Life")
 
+        self.cell_size = cell_size
+        self.rules = rules
+        
         # * Create the mark cell
         self.mark: Cell = Cell(0, 0, self.cell_size, self.batch, self.group_1, opacity=120)
 
         # * Create the field of cells
-        self.field: Field = Field(self.size, self.cell_size, self.batch, self.group_1)
+        self.field: Field = Field((width, height), self.cell_size, rules, self.batch, self.group_1)
 
         # * Create the background
         self.bg = Rectangle(
-            0, 0, *self.size, color=(255, 255, 255), batch=self.batch, group=self.group_0
+            0, 0, width, height, color=(255, 255, 255), batch=self.batch, group=self.group_0
         )
 
         # * Boolean to check if the game is running

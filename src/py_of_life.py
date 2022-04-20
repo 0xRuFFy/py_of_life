@@ -8,14 +8,13 @@ def usage() -> None:
     print("    -h, --help: Prints this help message")
     print("    -s, --size <width, height>: Sets the size of the field")
     print("    -c, --cell-size <size>: Sets the size of the cells")
-    print("    -r, --rules <rules>: Sets the rules of the game")
-    print("    Rules:")
+    print("    -r, --rules <rules>: Sets the rules of the game (default: 3/23)")
     
 def main() -> None:
     width = 800
     height = 600
     cell_size = 10
-    rules = "23/3"
+    rules = "3/23"
     
     if len(argv) > 1:
         i = 1

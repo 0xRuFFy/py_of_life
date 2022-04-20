@@ -21,9 +21,10 @@
     - [ ] deletion of selected cells
     - [ ] copy / paste selections
 - [ ] create presets to use
-- [ ] make simulation values (cellcount, cellsize, etc.) modifiable
-- [ ] add suport for different worlds -> input shorthand version (e.q.: 23/3, 3/3, 13/3, 1357/1357)
+- [x] make simulation values (width, height, cellsize, etc.) modifiable
+- [x] add suport for different worlds -> input shorthand version (e.q.: 23/3, 3/3, 13/3, 1357/1357)
 - [ ] add display for simulation info : Generation, Population, etc.
+- [ ] optimize code -> increase performance
 
 ## How to use
 ### To play the game with:

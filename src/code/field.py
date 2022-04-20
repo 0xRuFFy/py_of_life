@@ -5,7 +5,7 @@ from code.cell import Cell
 
 class Field:
     def __init__(
-        self, size: Tuple[int, int], cell_size: int, batch: Batch, group: OrderedGroup
+        self, size: Tuple[int, int], cell_size: int, rules: str, batch: Batch, group: OrderedGroup
     ) -> None:
 
         self.size = size
@@ -13,10 +13,21 @@ class Field:
         self.cell_count = size[0] // cell_size, size[1] // cell_size
         self.batch = batch
         self.group = group
+        self.rules = self.format_rules(rules)
 
         # * Dict with Cells and their positions as keys
         self.cells: Dict[Tuple[int, int], Cell] = {}
 
+    def format_rules(self, rules: str) -> Tuple[List[int], List[int]]:
+        s = rules.split("/")
+        if len(s) != 2:
+            raise ValueError("Rules must be in the form 'a/b'")
+        a, b = s
+        print(a, b)
+        a = [int(x) for x in a]
+        b = [int(x) for x in b]
+        return a, b
+    
     def get_possible_affected_cells(self) -> Set[Tuple[int, int]]:
         """Returns a list of all cells that could be affected during the next step
 
@@ -50,22 +61,13 @@ class Field:
 
         neighbour_count = self.get_neighbours(cell)
         result = 0
-
-        """
-        Rules:
-            - A dead cell with exactly three living neighbors is reborn in the subsequent generation.
-            - Living cells with fewer than two living neighbors die of loneliness in the subsequent generation.
-            - Living cells with more than three living neighbors die of overpopulation in the subsequent generation.
-            - A living cell with two or three living neighbors remains alive in the subsequent generation.
-        """
+        
         if cell in self.cells:
-            if neighbour_count < 2:
-                result = 0
-            elif neighbour_count > 3:
-                result = 0
-            else:
+            if neighbour_count in self.rules[1]:
                 result = 1
-        elif neighbour_count == 3:
+            else:
+                result = 0
+        elif neighbour_count in self.rules[0]:
             result = 1
 
         return result
@@ -84,7 +86,6 @@ class Field:
             if self.apply_rules_to_cell(cell) == 1:
                 new_cells.add(cell)
 
-        print(len(new_cells))
         self.set_cells(new_cells)
         return len(self.cells) != 0
 
