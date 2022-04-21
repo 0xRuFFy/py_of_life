@@ -18,9 +18,11 @@ class GameScreen(Window):
         self.cell_size = cell_size
         self.cell_count = (width // cell_size, height // cell_size)
         self.rules = rules
-        
+
         # * Create the mark cell
-        self.mark: Cell = Cell(0, 0, self.cell_size, self.cell_count, self.batch, self.group_1, opacity=120)
+        self.mark: Cell = Cell(
+            0, 0, self.cell_size, self.cell_count, self.batch, self.group_1, opacity=120
+        )
 
         # * Create the field of cells
         self.field: Field = Field((width, height), self.cell_size, rules, self.batch, self.group_1)

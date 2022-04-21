@@ -2,6 +2,7 @@ from pyglet.app import run
 from code.screen import GameScreen
 from sys import argv
 
+
 def usage() -> None:
     print("Usage: python3 py_of_life.py [OPTIONS]")
     print("Options:")
@@ -9,13 +10,14 @@ def usage() -> None:
     print("    -s, --size <width, height>: Sets the size of the field (default: 800, 600)")
     print("    -c, --cell-size <size>:     Sets the size of the cells default: 10")
     print("    -r, --rules <rules>:        Sets the rules of the game (default: 3/23)")
-    
+
+
 def main() -> None:
     width = 800
     height = 600
     cell_size = 10
     rules = "3/23"
-    
+
     if len(argv) > 1:
         i = 1
         while i < len(argv):
@@ -40,7 +42,7 @@ def main() -> None:
                 print("Unknown option: " + argv[i])
                 usage()
                 return
-    
+
     GameScreen(width, height, cell_size, rules)
     run()
 

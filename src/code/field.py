@@ -26,7 +26,7 @@ class Field:
         a = {int(x) for x in a}
         b = {int(x) for x in b}
         return a, b
-    
+
     def get_possible_affected_cells(self) -> Set[Tuple[int, int]]:
         """Returns a list of all cells that could be affected during the next step
 
@@ -60,7 +60,7 @@ class Field:
 
         neighbour_count = self.get_neighbours(cell)
         result = 0
-        
+
         if cell in self.cells:
             if neighbour_count in self.rules[1]:
                 result = 1
@@ -79,11 +79,11 @@ class Field:
         """
 
         relevant_cells = self.get_possible_affected_cells()
-        new_cells = {key:val for key, val in self.cells.items()}
+        new_cells = {key: val for key, val in self.cells.items()}
 
         for cell in relevant_cells:
             if self.apply_rules_to_cell(cell) == 1 and self.cells.get(cell) is None:
-               new_cells[cell] = self.create_cell(cell[0], cell[1], True)
+                new_cells[cell] = self.create_cell(cell[0], cell[1], True)
             elif self.apply_rules_to_cell(cell) == 0 and self.cells.get(cell) is not None:
                 new_cells.pop(cell, None)
 
@@ -110,7 +110,7 @@ class Field:
             x (int): The x position of the cell
             y (int): The y position of the cell
             return_ (bool): If True, returns the cell instead of adding it to the field (default: False)
-        
+
         Returns:
             Cell | None: The cell if return_ is True, None otherwise
         """
